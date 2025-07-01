@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - MarketMatch SA</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f4f4f4; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;}
+    .login-container {background:#fff; padding:2rem; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); width:300px; }
+    input { width:100%; padding:0.5rem; margin-bottom:1rem; border-radius:4px; border:1px solid #ccc; }
+    button { width:100%; padding:0.6rem; background:#00796b; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:1rem; }
+    button:hover { background:#004d40; }
+    .error { color:red; margin-bottom:1rem; }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <h2>Login</h2>
+  <div id="error" class="error"></div>
+  <input type="text" id="username" placeholder="Username" autofocus />
+  <input type="password" id="password" placeholder="Password" />
+  <button onclick="login()">Login</button>
+  <a href="register.html">Already have an Account?</a>
+</div>
+
+<script>
+ function login() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const errorDiv = document.getElementById('error');
+
+  if (!username || !password) {
+    errorDiv.textContent = "Please enter both username and password.";
+    return;
+  }
+
+  // Admin check
+  if (username === "Admin@1") {
+    if (password === "Admin123") {
+      localStorage.setItem('loggedInUser', "Admin@1");
+      window.location.href = "index.html";
+    } else {
+      errorDiv.textContent = "Incorrect password for Admin.";
+    }
+    return;
+  }
+
+  // Regular users
+  const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+  const user = users.find(u => u.username === username && u.password === password);
+
+  if (user) {
+    localStorage.setItem('loggedInUser', username);
+    window.location.href = "index.html";
+  } else {
+    errorDiv.textContent = "Invalid credentials.";
+  }
+}
+
+</script>
+
+</body>
+</html>

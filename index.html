@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MarketMatch SA - Smart Market Analyzer with Maps</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #00796b, #004d40);
+      color: white;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-out;
+    }
+    header .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    header img.logo {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+    header h1 {
+      font-size: 1.8rem;
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    header p {
+      font-size: 0.95rem;
+      margin: 0.2rem 0 0;
+      opacity: 0.9;
+    }
+    #userInfo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+    }
+    #userInfo a {
+      color: #e63946;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    #userInfo a:hover {
+      color: #b22234;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    nav {
+      background-color: #004d40;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+    nav a, nav button {
+      background-color: transparent;
+      color: #ffffff;
+      border: 2px solid transparent;
+      padding: 0.7rem 1.5rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    nav a::after, nav button::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background-color: #ffffff;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    nav a:hover::after, nav button:hover::after,
+    nav a.active::after, nav button.active::after {
+      width: 80%;
+    }
+    nav a:hover,
+    nav a:focus,
+    nav a.active,
+    nav button:hover,
+    nav button:focus,
+    nav button.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 77, 64, 0.2);
+      transform: translateY(-2px);
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    select,
+    button,
+    .toggle-btn {
+      width: 100%;
+      padding: 1rem;
+      margin: 1rem 0;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .results {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #e0f2f1;
+      border-left: 4px solid #00796b;
+      border-radius: 5px;
+    }
+    canvas {
+      max-width: 100%;
+      margin-top: 1rem;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 3rem;
+      padding: 1rem;
+    }
+    #locationsList {
+      margin-top: 1rem;
+    }
+    .location-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      gap: 1rem;
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      border-radius: 6px;
+      background: #fafafa;
+    }
+    .location-item img {
+      width: 120px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .location-item p {
+      margin: 0;
+      font-size: 1rem;
+      color: #333;
+    }
+    .stock-form {
+      margin-top: 1rem;
+      background: #f0f0f0;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    .stock-form input,
+    .stock-form button {
+      padding: 0.6rem;
+      font-size: 1rem;
+      margin-bottom: 0.7rem;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .stock-form button {
+      background-color: #00796b;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .stock-form button:hover {
+      background-color: #004d40;
+    }
+    @media (max-width: 768px) {
+      nav {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      nav a, nav button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      header .logo-container {
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="images/Logo.jpeg" alt="MarketMatch SA Logo" class="logo" />
+      <div>
+        <h1>MarketMatch SA</h1>
+        <p>AI-Powered Market Gap Finder for South African Entrepreneurs</p>
+      </div>
+      <div  class="My-links"> 
+         <a style="color: #f0f0f0;margin-left: 50px;" href="admin.html">Admin |</a>
+    <a style="color: #f0f0f0;" href="order.html">Order|</a>
+    <a style="color: #f0f0f0;" href="track.html">Track</a>
+      </div>
+    </div>
+    <div id="userInfo">
+      <span>Welcome Back <strong id="loggedInUser"></strong></span>
+      <span>|</span>
+      <a href="#" id="logoutBtn">Logout</a>
+      
+    </div>
+  </header>
+
+  <nav>
+    <button id="potatoes-btn" onclick="selectProduct('potatoes')">Potatoes</button>
+    <button id="acher-btn" onclick="selectProduct('acher')">Acher (Pickle)</button>
+    <button id="maizemeal-btn" onclick="selectProduct('maizemeal')">Maize Meal</button>
+    <button id="Socks-btn" onclick="selectProduct('Socks')">Socks</button>
+  </nav>
+
+  <main>
+    <label for="region">Select Province:</label>
+    <select id="region" onchange="updateRuralAreas()">
+      <option value="">-- Select Province --</option>
+      <option value="mpumalanga">Mpumalanga</option>
+    </select>
+
+    <label for="ruralArea">Select Rural Area in Mpumalanga:</label>
+    <select id="ruralArea" onchange="analyzeMarket()">
+      <option value="">-- Select Rural Area --</option>
+    </select>
+
+    <div class="results" id="results"></div>
+    <div class="graph-container">
+      <canvas id="profitChart" width="400" height="200"></canvas>
+    </div>
+
+    <div>
+      <button class="toggle-btn" onclick="toggleView()">Show: Recommended Locations</button>
+    </div>
+
+    <div id="locationsList" style="display:none;">
+      <h3>Recommended Locations in <span id="selectedArea">Mpumalanga</span></h3>
+      <div id="locationsContent"></div>
+    </div>
+
+    <div id="stockForm" class="stock-form" style="display:block;">
+      <h3>Stock Inventory Simulator</h3>
+      <label for="stockQty">Enter Quantity to Stock:</label>
+      <input type="number" id="stockQty" min="1" placeholder="e.g. 50" />
+      <button onclick="simulateStock()">Simulate Stock Profit</button>
+      <p id="stockResult"></p>
+    </div>
+  </main>
+
+  <footer>Designed by a Business Analyst | Powered by AI</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const regionData = {
+      mpumalanga: {
+        ruralAreas: {
+          islington: {
+            lacking: 'Winter essentials: socks, gloves, beanies',
+            source: 'Small Streets, China City, Gold Reef City (Gauteng)',
+            profit: [900, 1200, 1600, 2000, 2400],
+            cost: [225, 300, 400, 500, 600],
+            locations: [
+              { name: 'Islington', desc: 'Rural village with high demand for affordable winter essentials.', img: 'images/images (1).png' }
+            ]
+          },
+          eidenburg: {
+            lacking: 'Affordable household goods, socks, blankets',
+            source: 'Gauteng Wholesale Markets',
+            profit: [800, 1100, 1500, 1900, 2300],
+            cost: [200, 275, 375, 475, 575],
+            locations: [
+              { name: 'Eidenburg', desc: 'Growing community with potential for retail expansion.', img: 'images/images (2).png' }
+            ]
+          },
+          clara: {
+            lacking: 'Budget-friendly food and clothing',
+            source: 'China City, Gauteng',
+            profit: [1000, 1400, 1800, 2200, 2600],
+            cost: [250, 350, 450, 550, 650],
+            locations: [
+              { name: 'Clara', desc: 'Small village with need for affordable food and clothing.', img: 'images/images (3).png' }
+            ]
+          },
+          thulamahashe: {
+            lacking: 'Winter essentials: socks, gloves, beanies',
+            source: 'Small Streets, China City, Gold Reef City (Gauteng)',
+            profit: [900, 1200, 1600, 2000, 2400],
+            cost: [225, 300, 400, 500, 600],
+            locations: [
+              { name: 'Thulamahashe', desc: 'Community with steady demand for budget-friendly essentials.', img: 'images/images (4).png' }
+            ]
+          },
+          mkhuhlu: {
+            lacking: 'Affordable household goods, socks, blankets',
+            source: 'Gauteng Wholesale Markets',
+            profit: [800, 1100, 1500, 1900, 2300],
+            cost: [200, 275, 375, 475, 575],
+            locations: [
+              { name: 'Mkhuhlu', desc: 'Residential area with demand for household goods.', img: 'images/images (1).png' }
+            ]
+          },
+          agincourt: {
+            lacking: 'Budget-friendly food and clothing',
+            source: 'China City, Gauteng',
+            profit: [1000, 1400, 1800, 2200, 2600],
+            cost: [250, 350, 450, 550, 650],
+            locations: [
+              { name: 'Agincourt', desc: 'Rural hub with high potential for small-scale retail.', img: 'images/images (2).png' }
+            ]
+          },
+          dumfries: {
+            lacking: 'Winter essentials: socks, gloves, beanies',
+            source: 'Small Streets, China City, Gold Reef City (Gauteng)',
+            profit: [900, 1200, 1600, 2000, 2400],
+            cost: [225, 300, 400, 500, 600],
+            locations: [
+              { name: 'Dumfries', desc: 'Village with need for affordable winter clothing.', img: 'images/images (3).png' }
+            ]
+          },
+          ximhungwe: {
+            lacking: 'Affordable household goods, socks, blankets',
+            source: 'Gauteng Wholesale Markets',
+            profit: [800, 1100, 1500, 1900, 2300],
+            cost: [200, 275, 375, 475, 575],
+            locations: [
+              { name: 'Ximhungwe', desc: 'Community with growing retail opportunities.', img: 'images/images (4).png' }
+            ]
+          },
+          shatale: {
+            lacking: 'Budget-friendly food and clothing',
+            source: 'China City, Gauteng',
+            profit: [1000, 1400, 1800, 2200, 2600],
+            cost: [250, 350, 450, 550, 650],
+            locations: [
+              { name: 'Shatale', desc: 'Rural area with demand for budget products.', img: 'images/images (1).png' }
+            ]
+          },
+          matikwana: {
+            lacking: 'Winter essentials: socks, gloves, beanies',
+            source: 'Small Streets, China City, Gold Reef City (Gauteng)',
+            profit: [900, 1200, 1600, 2000, 2400],
+            cost: [225, 300, 400, 500, 600],
+            locations: [
+              { name: 'Matikwana', desc: 'Village with potential for small-scale retail ventures.', img: 'images/images (2).png' }
+            ]
+          }
+        }
+      }
+    };
+
+    const productData = {
+      potatoes: {
+        cost: 50,
+        sellPrice: 80,
+        unit: "7kg bag",
+        region: "mpumalanga",
+        description: "Stock 7kg potatoes for R50 and sell for R80 in Mpumalanga."
+      },
+      acher: {
+        cost: 350,
+        sellPrice: 75,
+        packageUnits: 40,
+        unit: "500g container",
+        region: "mpumalanga",
+        description: "Stock 20L Acher for R350, package into 40 units of 500g, sell each at R75 in Mpumalanga."
+      },
+      maizemeal: {
+        cost: 480,
+        sellPrice: 690,
+        unit: "unit",
+        region: "mpumalanga",
+        description: "Stock maize meal for R480, sell to families at R690 in Mpumalanga."
+      },
+      socks: {
+        cost: 3,
+        sellPrice: 12,
+        unit: "pair",
+        region: "mpumalanga",
+        description: "Stock socks for R3 per pair, sell at R12 per pair in Mpumalanga."
+      }
+    };
+
+    let selectedProduct = null;
+
+    function selectProduct(product) {
+      selectedProduct = product;
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`${product}-btn`).classList.add('active');
+      analyzeMarket();
+      resetToggle();
+    }
+
+    function updateRuralAreas() {
+      const region = document.getElementById("region").value;
+      const ruralAreaSelect = document.getElementById("ruralArea");
+      ruralAreaSelect.innerHTML = '<option value="">-- Select Rural Area --</option>';
+      
+      if (region === "mpumalanga") {
+        const ruralAreas = regionData.mpumalanga.ruralAreas;
+        for (const area in ruralAreas) {
+          const option = document.createElement("option");
+          option.value = area;
+          option.textContent = area.charAt(0).toUpperCase() + area.slice(1);
+          ruralAreaSelect.appendChild(option);
+        }
+      }
+      analyzeMarket();
+    }
+
+    function analyzeMarket() {
+      const region = document.getElementById("region").value;
+      const ruralArea = document.getElementById("ruralArea").value;
+      const resultDiv = document.getElementById("results");
+      
+      if (!region || !ruralArea) {
+        resultDiv.innerHTML = "";
+        clearChart();
+        return;
+      }
+
+      const regionInfo = regionData[region]?.ruralAreas[ruralArea];
+      const productInfo = selectedProduct ? productData[selectedProduct] : null;
+
+      if (!regionInfo) {
+        resultDiv.innerHTML = "<em>Please select a valid rural area.</em>";
+        clearChart();
+        return;
+      }
+
+      let text = `<strong>Market Gaps:</strong> ${regionInfo.lacking}<br>
+      <strong>Source from Gauteng:</strong> ${regionInfo.source}<br>`;
+
+      if (productInfo && region === productInfo.region) {
+        text += `<strong>Product Info:</strong> ${productInfo.description}<br>`;
+        if (typeof productInfo.sellPrice === 'number' && typeof productInfo.cost === 'number') {
+          let profitArr, costArr;
+          switch (selectedProduct) {
+            case 'potatoes':
+              profitArr = [600, 700, 800, 900, 1000];
+              costArr = [450, 475, 500, 525, 550];
+              break;
+            case 'acher':
+              profitArr = [600, 700, 800, 750, 700];
+              costArr = [300, 325, 350, 375, 350];
+              break;
+            case 'maizemeal':
+              profitArr = [6500, 7000, 6700, 7100, 6900];
+              costArr = [4500, 4600, 4800, 4900, 5000];
+              break;
+            case 'socks':
+              profitArr = [100, 110, 120, 130, 120];
+              costArr = [25, 30, 30, 35, 30];
+              break;
+            default:
+              profitArr = Array(5).fill(productInfo.sellPrice * 10);
+              costArr = Array(5).fill(productInfo.cost * 10);
+          }
+          drawChart(profitArr, costArr);
+        } else {
+          text += `<em>Error: Invalid product data for ${selectedProduct}.</em>`;
+          clearChart();
+        }
+      } else {
+        text += `<em>Example: Buy socks at R3, sell at R12 → High profit in winter months</em>`;
+        if (Array.isArray(regionInfo.profit) && Array.isArray(regionInfo.cost) &&
+            regionInfo.profit.length === 5 && regionInfo.cost.length === 5 &&
+            regionInfo.profit.every(num => typeof num === 'number') &&
+            regionInfo.cost.every(num => typeof num === 'number')) {
+          drawChart(regionInfo.profit, regionInfo.cost);
+        } else {
+          text += `<em>Error: Invalid market data for ${ruralArea}.</em>`;
+          clearChart();
+        }
+      }
+
+      resultDiv.innerHTML = text;
+      updateLocations(ruralArea);
+    }
+
+    function updateLocations(ruralArea) {
+      const locationsContent = document.getElementById("locationsContent");
+      const selectedAreaSpan = document.getElementById("selectedArea");
+      const region = document.getElementById("region").value;
+      if (!region || !ruralArea) return;
+
+      selectedAreaSpan.textContent = ruralArea.charAt(0).toUpperCase() + ruralArea.slice(1);
+      const locations = regionData[region].ruralAreas[ruralArea].locations;
+      locationsContent.innerHTML = locations.map(loc => `
+        <div class="location-item">
+          <img src="${loc.img}" alt="${loc.name}" />
+          <p><strong>${loc.name}</strong> – ${loc.desc}</p>
+        </div>
+      `).join('');
+    }
+
+    let chartInstance = null;
+    function drawChart(profitArr, costArr) {
+      const ctx = document.getElementById("profitChart").getContext("2d");
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+      chartInstance = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+          datasets: [
+            {
+              label: "Profit (R)",
+              data: profitArr,
+              borderColor: "#e91e63",
+              backgroundColor: "rgba(0,121,107,0.3)",
+              fill: true,
+              tension: 0.4
+            },
+            {
+              label: "Cost (R)",
+              data: costArr,
+              borderColor: "#004d40",
+              backgroundColor: "rgba(0,77,64,0.3)",
+              fill: true,
+              tension: 0.4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: "top" }
+          },
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    function clearChart() {
+      if (chartInstance) {
+        chartInstance.destroy();
+        chartInstance = null;
+      }
+    }
+
+    function simulateStock() {
+      const qty = parseInt(document.getElementById("stockQty").value);
+      if (!selectedProduct) {
+        alert("Please select a product first.");
+        return;
+      }
+      if (!qty || qty <= 0) {
+        alert("Please enter a valid quantity.");
+        return;
+      }
+      const product = productData[selectedProduct];
+      let cost, revenue, unit;
+      if (selectedProduct === "acher") {
+        const batches = Math.ceil(qty / product.packageUnits);
+        cost = product.cost * batches;
+        revenue = product.sellPrice * qty;
+        unit = product.unit;
+      } else {
+        cost = product.cost * qty;
+        revenue = product.sellPrice * qty;
+        unit = product.unit;
+      }
+      const profit = revenue - cost;
+      document.getElementById("stockResult").innerHTML = `For stocking ${qty} ${unit}${qty > 1 ? 's' : ''} of <strong>${selectedProduct}</strong>, 
+        cost: R${cost.toFixed(2)}, expected revenue: R${revenue.toFixed(2)}, <strong>profit:</strong> R${profit.toFixed(2)}.`;
+    }
+
+    let showingLocations = false;
+    function toggleView() {
+      showingLocations = !showingLocations;
+      document.getElementById("locationsList").style.display = showingLocations ? "block" : "none";
+      document.getElementById("stockForm").style.display = showingLocations ? "none" : "block";
+      document.querySelector(".toggle-btn").textContent = showingLocations
+        ? "Show: Stock within Website"
+        : "Show: Recommended Locations";
+    }
+
+    function resetToggle() {
+      showingLocations = false;
+      document.getElementById("locationsList").style.display = "none";
+      document.getElementById("stockForm").style.display = "block";
+      document.querySelector(".toggle-btn").textContent = "Show: Recommended Locations";
+    }
+
+    function checkLogin() {
+      const user = localStorage.getItem('loggedInUser');
+      if (!user) {
+        window.location.href = 'login.html';
+      } else {
+        document.getElementById('loggedInUser').textContent = user;
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'login.html';
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      logout();
+    });
+
+    checkLogin();
+  </script>
+</body>
+</html>

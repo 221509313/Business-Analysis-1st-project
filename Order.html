@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MarketMatch SA - Online Order</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #00796b, #004d40);
+      color: white;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-out;
+    }
+    header .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    header img.logo {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+    header h1 {
+      font-size: 1.8rem;
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    header p {
+      font-size: 0.95rem;
+      margin: 0.2rem 0 0;
+      opacity: 0.9;
+    }
+    #userInfo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+    }
+    #userInfo a {
+      color: #e63946;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    #userInfo a:hover {
+      color: #b22234;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    nav {
+      background-color: #004d40;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+    nav a, nav button {
+      background-color: transparent;
+      color: #ffffff;
+      border: 2px solid transparent;
+      padding: 0.7rem 1.5rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+    nav a::after, nav button::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background-color: #ffffff;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    nav a:hover::after, nav button:hover::after,
+    nav a.active::after, nav button.active::after {
+      width: 80%;
+    }
+    nav a:hover,
+    nav a:focus,
+    nav a.active,
+    nav button:hover,
+    nav button:focus,
+    nav button.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 77, 64, 0.2);
+      transform: translateY(-2px);
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    select, input, button {
+      width: 100%;
+      padding: 1rem;
+      margin: 1rem 0;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #00796b;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #004d40;
+    }
+    .order-form {
+      margin-top: 1rem;
+      background: #f0f0f0;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    .results {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #e0f2f1;
+      border-left: 4px solid #00796b;
+      border-radius: 5px;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 3rem;
+      padding: 1rem;
+    }
+    @media (max-width: 768px) {
+      nav {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      nav a, nav button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      header .logo-container {
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <header>
+    <div class="logo-container">
+      <img src="images/Logo.jpeg" alt="MarketMatch SA Logo" class="logo" />
+      <div>
+        <h1>MarketMatch SA</h1>
+        <p>AI-Powered Market Gap Finder for South African Entrepreneurs</p>
+      </div>
+     
+    </div>
+    <div id="userInfo">
+      <span>Welcome Back <strong id="loggedInUser"></strong></span>
+      <span>|</span>
+      <a href="#" id="logoutBtn">Logout</a>
+      
+    </div>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+   
+  
+    <a href="admin.html">Admin</a>
+    <a href="track.html">Track</a>
+  </nav>
+
+  <main>
+    <div class="order-form">
+      <h3>Online Order Form</h3>
+      <label for="product">Select Product:</label>
+      <select id="product" onchange="updateOrderSummary()">
+        <option value="">-- Select Product --</option>
+        <option value="potatoes">Potatoes</option>
+        <option value="acher">Acher (Pickle)</option>
+        <option value="maizemeal">Maize Meal</option>
+        <option value="socks">Socks</option>
+      </select>
+
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" min="1" placeholder="e.g. 10" onchange="updateOrderSummary()" />
+
+      <label for="deliveryAddress">Delivery Address:</label>
+      <input type="text" id="deliveryAddress" placeholder="Enter delivery address" />
+
+      <label for="contactNumber">Contact Number:</label>
+      <input type="tel" id="contactNumber" placeholder="Enter contact number" />
+
+      <button onclick="placeOrder()">Place Order</button>
+    </div>
+
+    <div class="results" id="orderSummary"></div>
+  </main>
+
+  <footer>Designed by a Business Analyst | Powered by AI</footer>
+
+  <script>
+    const productData = {
+      potatoes: { cost: 50, sellPrice: 80, unit: "7kg bag" },
+      acher: { cost: 350, sellPrice: 75, packageUnits: 40, unit: "500g container" },
+      maizemeal: { cost: 480, sellPrice: 690, unit: "unit" },
+      socks: { cost: 3, sellPrice: 12, unit: "pair" }
+    };
+
+    function updateOrderSummary() {
+      const product = document.getElementById('product').value;
+      const qty = parseInt(document.getElementById('quantity').value);
+      const summaryDiv = document.getElementById('orderSummary');
+
+      if (!product || !qty || qty <= 0) {
+        summaryDiv.innerHTML = "<em>Please select a product and enter a valid quantity.</em>";
+        return;
+      }
+
+      const info = productData[product];
+      let cost, revenue, unit;
+      if (product === 'acher') {
+        const batches = Math.ceil(qty / info.packageUnits);
+        cost = info.cost * batches;
+        revenue = info.sellPrice * qty;
+        unit = info.unit;
+      } else {
+        cost = info.cost * qty;
+        revenue = info.sellPrice * qty;
+        unit = info.unit;
+      }
+
+      const profit = revenue - cost;
+      summaryDiv.innerHTML = `
+        <strong>Order Summary:</strong><br>
+        Product: ${product.charAt(0).toUpperCase() + product.slice(1)}<br>
+        Quantity: ${qty} ${unit}${qty > 1 ? 's' : ''}<br>
+        Total Cost: R${cost.toFixed(2)}<br>
+        Total Revenue: R${revenue.toFixed(2)}<br>
+        Expected Profit: R${profit.toFixed(2)}
+      `;
+    }
+
+    function placeOrder() {
+      const user = localStorage.getItem('loggedInUser');
+      if (!user) {
+        alert("You must be logged in to place an order.");
+        return;
+      }
+
+      const product = document.getElementById('product').value;
+      const qty = parseInt(document.getElementById('quantity').value);
+      const deliveryAddress = document.getElementById('deliveryAddress').value.trim();
+      const contactNumber = document.getElementById('contactNumber').value.trim();
+
+      if (!product || !qty || !deliveryAddress || !contactNumber || qty <= 0) {
+        alert('Please fill all fields correctly.');
+        return;
+      }
+
+      const info = productData[product];
+      const unit = info.unit;
+      const timestamp = new Date().toLocaleString();
+
+      const newOrder = {
+        username: user,
+        product,
+        quantity: qty,
+        unit,
+        deliveryAddress,
+        contactNumber,
+        timestamp,
+        status: "Processing"
+      };
+
+      localStorage.setItem('latestOrder', JSON.stringify(newOrder));
+
+      let allOrders = JSON.parse(localStorage.getItem('allOrders')) || [];
+      allOrders.push(newOrder);
+      localStorage.setItem('allOrders', JSON.stringify(allOrders));
+
+      document.getElementById('orderSummary').innerHTML = `
+        <strong>Order Confirmation:</strong><br>
+        Product: ${product}<br>
+        Quantity: ${qty} ${unit}${qty > 1 ? 's' : ''}<br>
+        Delivery Address: ${deliveryAddress}<br>
+        Contact Number: ${contactNumber}<br>
+        <em>Your order has been placed successfully!</em>
+      `;
+
+      document.getElementById('product').value = '';
+      document.getElementById('quantity').value = '';
+      document.getElementById('deliveryAddress').value = '';
+      document.getElementById('contactNumber').value = '';
+    }
+
+    function checkLogin() {
+      const user = localStorage.getItem('loggedInUser');
+      if (!user) {
+        window.location.href = 'login.html';
+      } else {
+        document.getElementById('loggedInUser').textContent = user;
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'login.html';
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      logout();
+    });
+
+    checkLogin();
+  </script>
+</body>
+</html>

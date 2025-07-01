@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Panel - MarketMatch SA</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #00796b, #004d40);
+      color: white;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-out;
+    }
+    header .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    header img.logo {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+    header h1 {
+      font-size: 1.8rem;
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    header p {
+      font-size: 0.95rem;
+      margin: 0.2rem 0 0;
+      opacity: 0.9;
+    }
+    #userInfo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+    }
+    #userInfo a {
+      color: #e63946;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    #userInfo a:hover {
+      color: #b22234;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    nav {
+      background-color: #004d40;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+    nav a {
+      background-color: transparent;
+      color: #ffffff;
+      border: 2px solid transparent;
+      padding: 0.7rem 1.5rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background-color: #ffffff;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    nav a:hover::after, nav a.active::after {
+      width: 80%;
+    }
+    nav a:hover,
+    nav a:focus,
+    nav a.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 77, 64, 0.2);
+      transform: translateY(-2px);
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #00796b;
+      margin-bottom: 1rem;
+    }
+    .order {
+      border-left: 5px solid #00796b;
+      background-color: #f1f1f1;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 5px;
+    }
+    .order p {
+      margin: 0.5rem 0;
+    }
+    select, button {
+      padding: 0.5rem 1rem;
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-right: 0.5rem;
+    }
+    .delete-btn {
+      background-color: #e53935;
+      color: white;
+      border: none;
+    }
+    .delete-btn:hover {
+      background-color: #b71c1c;
+    }
+    .save-btn {
+      background-color: #00796b;
+      color: white;
+      border: none;
+    }
+    .save-btn:hover {
+      background-color: #004d40;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 3rem;
+      padding: 1rem;
+    }
+    @media (max-width: 768px) {
+      nav {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      nav a {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      header .logo-container {
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <header>
+    <div class="logo-container">
+      <img src="images/Logo.jpeg" alt="MarketMatch SA Logo" class="logo" />
+      <div>
+        <h1>MarketMatch SA</h1>
+        <p>AI-Powered Market Gap Finder for South African Entrepreneurs</p>
+      </div>
+      
+    </div>
+    <div id="userInfo">
+      <span>Welcome Back <strong id="loggedInUser"></strong></span>
+      <span>|</span>
+      <a href="#" id="logoutBtn">Logout</a>
+      
+    </div>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="order.html">Order Online</a>
+    <a href="track.html">Track Order</a>
+    <a href="users.html">Users</a>
+    <a class="active">Admin Panel</a>
+  </nav>
+
+  <main>
+    <h2>Customer Orders</h2>
+    <div id="ordersContainer"></div>
+  </main>
+
+  <footer>
+    Admin access only | Built by a Business Analyst
+  </footer>
+
+  <script>
+    const user = localStorage.getItem('loggedInUser');
+    if (user !== "Admin@1") {
+      alert("Access denied. Admins only.");
+      window.location.href = "index.html";
+    }
+
+    let orders = JSON.parse(localStorage.getItem('allOrders')) || [];
+
+    const container = document.getElementById('ordersContainer');
+
+    function renderOrders() {
+      container.innerHTML = "";
+
+      if (orders.length === 0) {
+        container.innerHTML = "<p>No orders found.</p>";
+        return;
+      }
+
+      orders.forEach((order, index) => {
+        const div = document.createElement('div');
+        div.className = "order";
+
+        div.innerHTML = `
+          <p><strong>Product:</strong> ${order.product}</p>
+          <p><strong>Quantity:</strong> ${order.quantity} ${order.unit}${order.quantity > 1 ? 's' : ''}</p>
+          <p><strong>Address:</strong> ${order.deliveryAddress}</p>
+          <p><strong>Contact:</strong> ${order.contactNumber}</p>
+          <p><strong>Order Time:</strong> ${order.timestamp}</p>
+          <label><strong>Status:</strong></label>
+          <select onchange="updateStatus(${index}, this.value)">
+            <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>Processing</option>
+            <option value="Out for Delivery" ${order.status === 'Out for Delivery' ? 'selected' : ''}>Out for Delivery</option>
+            <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+          </select>
+          <button class="save-btn" onclick="saveOrders()">Save</button>
+          <button class="delete-btn" onclick="deleteOrder(${index})">Delete</button>
+        `;
+
+        container.appendChild(div);
+      });
+    }
+
+    function updateStatus(index, newStatus) {
+      orders[index].status = newStatus;
+    }
+
+    function saveOrders() {
+      localStorage.setItem('allOrders', JSON.stringify(orders));
+
+      if (orders.length > 0) {
+        localStorage.setItem('latestOrder', JSON.stringify(orders[0]));
+      }
+
+      alert("Orders updated!");
+      renderOrders();
+    }
+
+    function deleteOrder(index) {
+      if (confirm("Are you sure you want to delete this order?")) {
+        orders.splice(index, 1);
+        saveOrders();
+      }
+    }
+
+    function checkLogin() {
+      const user = localStorage.getItem('loggedInUser');
+      if (!user) {
+        window.location.href = 'login.html';
+      } else {
+        document.getElementById('loggedInUser').textContent = user;
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'login.html';
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      logout();
+    });
+
+    checkLogin();
+    renderOrders();
+  </script>
+</body>
+</html>

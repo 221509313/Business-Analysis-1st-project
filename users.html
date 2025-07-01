@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registered Users - MarketMatch SA</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #00796b;
+    }
+    table {
+      width: 100%;
+      max-width: 600px;
+      margin: 2rem auto;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #00796b;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .back {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .back a {
+      text-decoration: none;
+      color: #00796b;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Registered Users</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Password</th>
+      </tr>
+    </thead>
+    <tbody id="userTable"></tbody>
+  </table>
+
+  <div class="back"><a href="index.html">← Back to Home</a></div>
+
+  <script>
+    // Only allow Admin to view this
+    const user = localStorage.getItem('loggedInUser');
+    if (user !== "Admin@1") {
+      alert("Access denied. Admin only.");
+      window.location.href = "index.html";
+    }
+
+    const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+    const tbody = document.getElementById('userTable');
+
+    if (users.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="2">No registered users found.</td></tr>`;
+    } else {
+      users.forEach(u => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${u.username}</td><td>${u.password}</td>`;
+        tbody.appendChild(row);
+      });
+    }
+  </script>
+</body>
+</html>
