@@ -16,285 +16,50 @@
       --text-light: #fff;
     }
 
-    * {
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: var(--light-bg);
-      color: var(--text-dark);
-    }
+    * { box-sizing: border-box; scroll-behavior: smooth; }
+    body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background-color: var(--light-bg); color: var(--text-dark); }
 
     /* ===== Header ===== */
-    header {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: var(--text-light);
-      padding: 1.2rem 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--text-light); padding: 1.2rem 2rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    .logo-container { display:flex; align-items:center; gap:1rem; flex-wrap: wrap; }
+    .logo { width:55px; height:55px; border-radius:50%; object-fit: cover; background-color: #fff; box-shadow:0 2px 5px rgba(0,0,0,0.3); }
+    header h1 { font-size:1.6rem; margin:0; font-weight:600; letter-spacing:0.4px; }
+    header p { font-size:0.9rem; margin:0.3rem 0 0; opacity:0.9; }
+    .My-links a { color:#ffeb3b; margin-left:15px; text-decoration:none; font-weight:500; transition:color 0.3s ease; }
+    .My-links a:hover { color:#fff; }
+    #userInfo { display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; background:rgba(255,255,255,0.1); padding:0.6rem 1rem; border-radius:20px; backdrop-filter:blur(6px); }
+    #userInfo a { color:#ffeb3b; text-decoration:none; font-weight:500; }
+    #userInfo a:hover { color:#fff; }
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .logo {
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      object-fit: cover;
-      background-color: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    }
-
-    header h1 {
-      font-size: 1.6rem;
-      margin: 0;
-      font-weight: 600;
-      letter-spacing: 0.4px;
-    }
-
-    header p {
-      font-size: 0.9rem;
-      margin: 0.3rem 0 0;
-      opacity: 0.9;
-    }
-
-    .My-links a {
-      color: #ffeb3b;
-      margin-left: 15px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .My-links a:hover {
-      color: #fff;
-    }
-
-    #userInfo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 0.6rem 1rem;
-      border-radius: 20px;
-      backdrop-filter: blur(6px);
-    }
-
-    #userInfo a {
-      color: #ffeb3b;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    #userInfo a:hover {
-      color: #fff;
-    }
-
-    /* ===== Navbar (Product Buttons) ===== */
-    nav {
-      background-color: var(--secondary);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-      width: 100%;
-      max-width: 900px;
-    }
-
-    .product-card {
-      background-color: var(--white);
-      color: var(--primary);
-      text-align: center;
-      border-radius: 10px;
-      padding: 1rem;
-      font-weight: 600;
-      border: 2px solid transparent;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .product-card:hover,
-    .product-card.active {
-      background-color: var(--primary);
-      color: var(--text-light);
-      border-color: var(--accent);
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    }
+    /* ===== Navbar (Product Cards) ===== */
+    nav { background-color: var(--secondary); padding:1rem 2rem; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:1rem; position: sticky; top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,0.15); }
+    .product-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:1rem; width:100%; max-width:900px; }
+    .product-card { background-color: var(--white); color: var(--primary); text-align:center; border-radius:10px; padding:1rem; font-weight:600; border:2px solid transparent; transition: all 0.3s ease; cursor:pointer; box-shadow:0 3px 6px rgba(0,0,0,0.1); }
+    .product-card:hover, .product-card.active { background-color: var(--primary); color: var(--text-light); border-color: var(--accent); transform:translateY(-3px); box-shadow:0 6px 15px rgba(0,0,0,0.15); }
 
     /* ===== Main Content ===== */
-    main {
-      max-width: 950px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      animation: fadeIn 0.6s ease;
-    }
+    main { max-width:950px; margin:2rem auto; padding:2rem; background-color:#fff; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); animation:fadeIn 0.6s ease; }
+    main label { font-weight:600; display:block; margin-top:1rem; }
+    select,input,button { width:100%; padding:0.9rem; margin-top:0.5rem; font-size:1rem; border-radius:6px; border:1px solid #ccc; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+    select:focus,input:focus { border-color: var(--primary); box-shadow:0 0 5px rgba(0,105,92,0.3); outline:none; }
+    .results { margin-top:1rem; padding:1rem; background-color:#e0f2f1; border-left:4px solid var(--primary); border-radius:6px; }
+    canvas { max-width:100%; margin-top:1rem; }
+    .toggle-btn { background-color: var(--accent); color: var(--text-light); font-weight:600; border:none; cursor:pointer; border-radius:30px; transition: all 0.3s ease; margin-top:1rem; }
+    .toggle-btn:hover { background-color: #fbc02d; }
+    .location-item { display:flex; align-items:center; margin-bottom:1rem; gap:1rem; border:1px solid #ddd; padding:0.7rem; border-radius:6px; background:#fafafa; box-shadow:0 1px 4px rgba(0,0,0,0.05); }
+    .location-item img { width:120px; height:80px; object-fit:cover; border-radius:6px; }
+    .stock-form { margin-top:1.5rem; background:#f0f0f0; padding:1rem; border-radius:8px; }
+    .stock-form button { background-color: var(--primary); color:white; border:none; cursor:pointer; font-weight:500; transition: background-color 0.3s ease; }
+    .stock-form button:hover { background-color: var(--secondary); }
+    footer { text-align:center; font-size:0.9rem; color:#777; margin-top:3rem; padding:1rem; background-color:#fff; box-shadow:0 -2px 6px rgba(0,0,0,0.1); }
 
-    main label {
-      font-weight: 600;
-      display: block;
-      margin-top: 1rem;
-    }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 
-    select,
-    input,
-    button {
-      width: 100%;
-      padding: 0.9rem;
-      margin-top: 0.5rem;
-      font-size: 1rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    select:focus,
-    input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 5px rgba(0, 105, 92, 0.3);
-      outline: none;
-    }
-
-    .results {
-      margin-top: 1rem;
-      padding: 1rem;
-      background-color: #e0f2f1;
-      border-left: 4px solid var(--primary);
-      border-radius: 6px;
-    }
-
-    canvas {
-      max-width: 100%;
-      margin-top: 1rem;
-    }
-
-    .toggle-btn {
-      background-color: var(--accent);
-      color: var(--text-light);
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      border-radius: 30px;
-      transition: all 0.3s ease;
-      margin-top: 1rem;
-    }
-
-    .toggle-btn:hover {
-      background-color: #fbc02d;
-    }
-
-    .location-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1rem;
-      gap: 1rem;
-      border: 1px solid #ddd;
-      padding: 0.7rem;
-      border-radius: 6px;
-      background: #fafafa;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    .location-item img {
-      width: 120px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 6px;
-    }
-
-    .stock-form {
-      margin-top: 1.5rem;
-      background: #f0f0f0;
-      padding: 1rem;
-      border-radius: 8px;
-    }
-
-    .stock-form button {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-      transition: background-color 0.3s ease;
-    }
-
-    .stock-form button:hover {
-      background-color: var(--secondary);
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      margin-top: 3rem;
-      padding: 1rem;
-      background-color: #fff;
-      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===== Responsive Design ===== */
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-      }
-
-      .logo-container {
-        justify-content: center;
-      }
-
-      main {
-        padding: 1.2rem;
-      }
-
-      .product-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      }
-    }
-
-    @media (max-width: 480px) {
-      .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+    /* ===== Responsive ===== */
+    @media (max-width:768px){ header { flex-direction:column; text-align:center; gap:1rem;} .logo-container { justify-content:center;} main{padding:1.2rem;} .product-grid{grid-template-columns: repeat(auto-fit, minmax(140px,1fr));} }
+    @media (max-width:480px){ .product-grid{grid-template-columns:repeat(2,1fr);} }
   </style>
 </head>
-
 <body>
   <header>
     <div class="logo-container">
@@ -346,15 +111,11 @@
     </select>
 
     <div class="results" id="results"></div>
-
-    <div class="graph-container">
-      <canvas id="profitChart" width="400" height="200"></canvas>
-    </div>
+    <canvas id="profitChart" width="400" height="200"></canvas>
 
     <button class="toggle-btn" onclick="toggleView()">Show: Recommended Locations</button>
-
     <div id="locationsList" style="display:none;">
-      <h3>Recommended Locations in <span id="selectedArea">Mpumalanga</span></h3>
+      <h3>Recommended Locations in <span id="selectedArea">Province</span></h3>
       <div id="locationsContent"></div>
     </div>
 
@@ -370,5 +131,102 @@
   <footer>Designed by a Business Analyst | Powered by AI</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // ===== Province -> Rural Areas =====
+    const provinceAreas = {
+      "mpumalanga": ["Bushbuckridge","Nkomazi","Mbombela","Mkhondo"],
+      "gauteng": ["Soweto","Tembisa","Midrand","Randburg"],
+      "limpopo": ["Polokwane","Giyani","Thohoyandou"],
+      "kwazulu-natal": ["Durban","Newcastle","Pietermaritzburg"],
+      "eastern-cape": ["Mthatha","East London","Bhisho"],
+      "western-cape": ["Cape Town","Stellenbosch","George"],
+      "northern-cape": ["Kimberley","Upington"],
+      "north-west": ["Rustenburg","Klerksdorp"],
+      "free-state": ["Bloemfontein","Welkom"]
+    };
+
+    function updateRuralAreas() {
+      const province = document.getElementById("region").value;
+      const ruralSelect = document.getElementById("ruralArea");
+      ruralSelect.innerHTML = '<option value="">-- Select Rural Area --</option>';
+      if(province && provinceAreas[province]){
+        provinceAreas[province].forEach(area => {
+          const option = document.createElement("option");
+          option.value = area.toLowerCase().replace(/\s/g,'-');
+          option.text = area;
+          ruralSelect.appendChild(option);
+        });
+      }
+    }
+
+    // ===== Product selection =====
+    let selectedProduct = null;
+    function selectProduct(product){
+      selectedProduct = product;
+      document.querySelectorAll('.product-card').forEach(card => card.classList.remove('active'));
+      event.target.classList.add('active');
+      analyzeMarket();
+    }
+
+    // ===== Analyze Market and show graph =====
+    let profitChart = null;
+    function analyzeMarket(){
+      const province = document.getElementById("region").value;
+      const rural = document.getElementById("ruralArea").value;
+      if(!selectedProduct || !province || !rural) return;
+
+      // Mock result
+      const profit = Math.floor(Math.random() * 10000) + 5000;
+      document.getElementById("results").innerHTML = `Estimated potential profit for <strong>${selectedProduct}</strong> in <strong>${rural}</strong>: R${profit.toLocaleString()}`;
+
+      // Graph
+      const ctx = document.getElementById('profitChart').getContext('2d');
+      if(profitChart) profitChart.destroy();
+      profitChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Week 1','Week 2','Week 3','Week 4'],
+          datasets: [{
+            label: 'Projected Profit (R)',
+            data: Array.from({length:4},()=>Math.floor(Math.random()*5000)+2000),
+            backgroundColor: 'rgba(0,105,92,0.7)'
+          }]
+        },
+        options: {
+          responsive:true,
+          plugins:{ legend:{ display:false }},
+          scales:{ y:{ beginAtZero:true }}
+        }
+      });
+
+      document.getElementById("selectedArea").textContent = rural;
+    }
+
+    // ===== Toggle recommended locations =====
+    function toggleView(){
+      const list = document.getElementById("locationsList");
+      if(list.style.display === 'none'){ 
+        list.style.display = 'block'; 
+        document.getElementById("locationsContent").innerHTML = `
+          <div class="location-item">
+            <img src="location1.jpg" alt="Location 1">
+            <p>Location 1 - High demand for ${selectedProduct}</p>
+          </div>
+          <div class="location-item">
+            <img src="location2.jpg" alt="Location 2">
+            <p>Location 2 - Good supply availability</p>
+          </div>
+        `;
+      } else { list.style.display = 'none'; }
+    }
+
+    // ===== Stock Simulation =====
+    function simulateStock(){
+      const qty = parseInt(document.getElementById("stockQty").value);
+      if(!qty) return alert("Enter valid quantity");
+      const profit = qty * (Math.floor(Math.random()*50)+10);
+      document.getElementById("stockResult").innerText = `Potential profit for stocking ${qty} units: R${profit.toLocaleString()}`;
+    }
+  </script>
 </body>
 </html>
