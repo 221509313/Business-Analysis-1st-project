@@ -5,224 +5,284 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MarketMatch SA - Smart Market Analyzer with Maps</title>
   <style>
+    /* ===== General Styles ===== */
+    :root {
+      --primary: #00695c;
+      --secondary: #004d40;
+      --accent: #f9a825;
+      --light-bg: #f4f4f4;
+      --text-dark: #333;
+      --text-light: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f4f4f4;
-      color: #333;
+      background-color: var(--light-bg);
+      color: var(--text-dark);
     }
+
+    /* ===== Header ===== */
     header {
-      background: linear-gradient(135deg, #00796b, #004d40);
-      color: white;
-      padding: 1.5rem 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--text-light);
+      padding: 1.2rem 2rem;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      animation: fadeIn 1s ease-out;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
-    header .logo-container {
+
+    .logo-container {
       display: flex;
       align-items: center;
       gap: 1rem;
+      flex-wrap: wrap;
     }
-    header img.logo {
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+
+    .logo {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
+
     header h1 {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       margin: 0;
       font-weight: 600;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
     }
+
     header p {
-      font-size: 0.95rem;
-      margin: 0.2rem 0 0;
+      font-size: 0.9rem;
+      margin: 0.3rem 0 0;
       opacity: 0.9;
     }
-    #userInfo {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      font-size: 0.9rem;
-      background: rgba(255, 255, 255, 0.15);
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      backdrop-filter: blur(5px);
-    }
-    #userInfo a {
-      color: #e63946;
+
+    .My-links a {
+      color: #ffeb3b;
+      margin-left: 15px;
       text-decoration: none;
       font-weight: 500;
       transition: color 0.3s ease;
     }
+
+    .My-links a:hover {
+      color: #fff;
+    }
+
+    #userInfo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.6rem 1rem;
+      border-radius: 20px;
+      backdrop-filter: blur(6px);
+    }
+
+    #userInfo a {
+      color: #ffeb3b;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
     #userInfo a:hover {
-      color: #b22234;
+      color: #fff;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+
+    /* ===== Navbar ===== */
     nav {
-      background-color: #004d40;
+      background-color: var(--secondary);
       padding: 1rem 2rem;
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-wrap: wrap;
       gap: 1rem;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
-    nav a, nav button {
-      background-color: transparent;
-      color: #ffffff;
+
+    nav button {
+      background: transparent;
+      color: var(--text-light);
       border: 2px solid transparent;
       padding: 0.7rem 1.5rem;
       font-weight: 500;
       font-size: 0.95rem;
-      cursor: pointer;
       border-radius: 30px;
+      cursor: pointer;
       transition: all 0.3s ease;
-      text-decoration: none;
-      text-align: center;
       position: relative;
       overflow: hidden;
     }
-    nav a::after, nav button::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background-color: #ffffff;
-      transition: all 0.3s ease;
-      transform: translateX(-50%);
-    }
-    nav a:hover::after, nav button:hover::after,
-    nav a.active::after, nav button.active::after {
-      width: 80%;
-    }
-    nav a:hover,
-    nav a:focus,
-    nav a.active,
+
     nav button:hover,
-    nav button:focus,
     nav button.active {
-      background-color: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-      border-color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 77, 64, 0.2);
+      background-color: rgba(255, 255, 255, 0.15);
+      border-color: #fff;
       transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 77, 64, 0.25);
     }
+
+    /* ===== Main Content ===== */
     main {
-      max-width: 900px;
+      max-width: 950px;
       margin: 2rem auto;
-      padding: 1rem;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.6s ease;
     }
+
+    main label {
+      font-weight: 600;
+    }
+
     select,
     button,
-    .toggle-btn {
+    input {
       width: 100%;
-      padding: 1rem;
-      margin: 1rem 0;
+      padding: 0.9rem;
+      margin: 0.8rem 0;
       font-size: 1rem;
-      border-radius: 5px;
+      border-radius: 6px;
       border: 1px solid #ccc;
     }
+
     .results {
       margin-top: 1rem;
       padding: 1rem;
       background-color: #e0f2f1;
-      border-left: 4px solid #00796b;
-      border-radius: 5px;
+      border-left: 4px solid var(--primary);
+      border-radius: 6px;
     }
+
     canvas {
       max-width: 100%;
       margin-top: 1rem;
     }
+
+    .toggle-btn {
+      background-color: var(--accent);
+      color: var(--text-light);
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .toggle-btn:hover {
+      background-color: #fbc02d;
+    }
+
+    .location-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      gap: 1rem;
+      border: 1px solid #ddd;
+      padding: 0.7rem;
+      border-radius: 6px;
+      background: #fafafa;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .location-item img {
+      width: 120px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .stock-form {
+      margin-top: 1.5rem;
+      background: #f0f0f0;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .stock-form button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    .stock-form button:hover {
+      background-color: var(--secondary);
+    }
+
     footer {
       text-align: center;
       font-size: 0.9rem;
       color: #777;
       margin-top: 3rem;
       padding: 1rem;
+      background-color: #fff;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
     }
-    #locationsList {
-      margin-top: 1rem;
+
+    /* ===== Animations ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .location-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1rem;
-      gap: 1rem;
-      border: 1px solid #ccc;
-      padding: 0.5rem;
-      border-radius: 6px;
-      background: #fafafa;
-    }
-    .location-item img {
-      width: 120px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .location-item p {
-      margin: 0;
-      font-size: 1rem;
-      color: #333;
-    }
-    .stock-form {
-      margin-top: 1rem;
-      background: #f0f0f0;
-      padding: 1rem;
-      border-radius: 8px;
-    }
-    .stock-form input,
-    .stock-form button {
-      padding: 0.6rem;
-      font-size: 1rem;
-      margin-bottom: 0.7rem;
-      width: 100%;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    .stock-form button {
-      background-color: #00796b;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .stock-form button:hover {
-      background-color: #004d40;
-    }
+
+    /* ===== Responsive Design ===== */
     @media (max-width: 768px) {
-      nav {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-      nav a, nav button {
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-      }
       header {
         flex-direction: column;
         text-align: center;
+        gap: 1rem;
       }
-      header .logo-container {
-        margin-bottom: 1rem;
+
+      .logo-container {
+        justify-content: center;
+      }
+
+      nav {
+        flex-wrap: wrap;
+        padding: 0.8rem;
+      }
+
+      nav button {
+        flex: 1 1 45%;
+        font-size: 0.9rem;
+      }
+
+      main {
+        padding: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav button {
+        flex: 1 1 100%;
+        font-size: 0.85rem;
+      }
+
+      .My-links {
+        text-align: center;
+        margin-top: 0.5rem;
       }
     }
   </style>
@@ -236,10 +296,10 @@
         <h1>MarketMatch SA</h1>
         <p>AI-Powered Market Gap Finder for South African Entrepreneurs</p>
       </div>
-      <div class="My-links"> 
-        <a style="color: #f0f0f0;margin-left: 50px;" href="admin.html">Admin |</a>
-        <a style="color: #f0f0f0;" href="order.html">Order |</a>
-        <a style="color: #f0f0f0;" href="track.html">Track</a>
+      <div class="My-links">
+        <a href="admin.html">Admin</a> |
+        <a href="order.html">Order</a> |
+        <a href="track.html">Track</a>
       </div>
     </div>
     <div id="userInfo">
@@ -250,10 +310,10 @@
   </header>
 
   <nav>
-    <button id="potatoes-btn" onclick="selectProduct('potatoes')">Potatoes</button>
-    <button id="acher-btn" onclick="selectProduct('acher')">Acher (Pickle)</button>
-    <button id="maizemeal-btn" onclick="selectProduct('maizemeal')">Maize Meal</button>
-    <button id="Socks-btn" onclick="selectProduct('socks')">Socks</button>
+    <button onclick="selectProduct('potatoes')">Potatoes</button>
+    <button onclick="selectProduct('acher')">Acher (Pickle)</button>
+    <button onclick="selectProduct('maizemeal')">Maize Meal</button>
+    <button onclick="selectProduct('socks')">Socks</button>
   </nav>
 
   <main>
@@ -269,6 +329,7 @@
     </select>
 
     <div class="results" id="results"></div>
+
     <div class="graph-container">
       <canvas id="profitChart" width="400" height="200"></canvas>
     </div>
@@ -282,7 +343,7 @@
       <div id="locationsContent"></div>
     </div>
 
-    <div id="stockForm" class="stock-form" style="display:block;">
+    <div id="stockForm" class="stock-form">
       <h3>Stock Inventory Simulator</h3>
       <label for="stockQty">Enter Quantity to Stock:</label>
       <input type="number" id="stockQty" min="1" placeholder="e.g. 50" />
@@ -294,9 +355,5 @@
   <footer>Designed by a Business Analyst | Powered by AI</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
- 
-
-   
 </body>
 </html>
-
